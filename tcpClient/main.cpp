@@ -1,9 +1,12 @@
 #if 1
 #include <QApplication>
-#include "clientwin.h"
+#include <QIcon>
+#include "ClientSocket/clientwin.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    clientWin::getInstance().setWindowIcon(QIcon(QPixmap(":/img/logo.png")));
+    clientWin::getInstance().setWindowTitle("CloudDisk");
         clientWin::getInstance().show();
        return a.exec();
 }

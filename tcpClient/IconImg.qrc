@@ -11,5 +11,9 @@
         <file>img/new.png</file>
         <file>img/share.png</file>
         <file>img/info.png</file>
+        <file>img/logo.png</file>
+        <file>img/collapse.png</file>
+        <file>img/full.png</file>
+        <file>img/quit.png</file>
     </qresource>
 </RCC>

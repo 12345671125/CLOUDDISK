@@ -15,35 +15,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES += \
-    downloadtask.cpp \
-    fileinfopage.cpp \
-    filepage.cpp \
-    friend.cpp \
-    itemui.cpp \
-    main.cpp \
-    clientwin.cpp \
-    online.cpp \
-    opewidget.cpp \
-    privatechat.cpp \
-    protocol.cpp \
-    task.cpp \
-    up_downpage.cpp
-
-HEADERS += \
-    clientwin.h \
-    downloadtask.h \
-    fileinfopage.h \
-    filepage.h \
-    friend.h \
-    itemui.h \
-    online.h \
-    opewidget.h \
-    privatechat.h \
-    protocol.h \
-    task.h \
-    up_downpage.h
-
 FORMS += \
     clientwin.ui \
     fileinfopage.ui \
@@ -58,3 +29,21 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     IconImg.qrc \
     config.qrc
+
+
+include($$PWD/File/File.pri)
+include($$PWD/Friend/Friend.pri)
+include($$PWD/MainWindow/MainWindow.pri)
+include($$PWD/ClientSocket/ClientSocket.pri)
+include($$PWD/PDU/PDU.pri)
+include($$PWD/View/View.pri)
+
+DISTFILES +=
+
+SOURCES += \
+    main.cpp \
+    mymain.cpp
+
+HEADERS += \
+    mymain.h \
+    style.h
