@@ -26,7 +26,7 @@ up_downPage::up_downPage(QWidget *parent)
     mainLayout->addWidget(this->stackedWidget);
     setLayout(mainLayout);
     QObject::connect(switchList,SIGNAL(currentRowChanged(int)),stackedWidget,SLOT(setCurrentIndex(int)));
-
+    this->setWindowIcon(QIcon(QPixmap(":/img/logo.png")));
 }
 
 up_downPage &up_downPage::getInstance()

@@ -42,7 +42,7 @@ void Task::taskThreadinit(QString curPath,QString absolutedPath,QString address,
     this->totalFileSize = file->size();
     this->curFileSize = 0;
     this->uploadEndTimer->setInterval(250);
-    this->updataTimer->setInterval(15);
+    this->updataTimer->setInterval(11);
     this->curFileSize = 0;
     uploadFile(curPath,absolutedPath);
 }
@@ -91,6 +91,7 @@ void Task::uploadFileData()
 
 void Task::uploadData()
 {
+    this->file->seek(this->curFileSize);
     qDebug()<<"uploadData";
     char* pBuffer = new char[4096]; //数据缓冲区
     protocol::PDU* pdu = nullptr;
@@ -107,7 +108,7 @@ void Task::uploadData()
         this->clientSocket->flush();
         this->curFileSize+=ret;
         emit updatePgBGUI(int(((double)curFileSize/totalFileSize) * 100));
-    }else if(ret == 0) //如果已经到达文件尾
+    }else if(ret == 0 && this->curFileSize == this->totalFileSize) //如果已经到达文件尾
     {
         this->updataTimer->stop(); //停止上传数据定时器
         this->file->close(); //关闭文件
@@ -184,9 +185,8 @@ void Task::recvMsg()
             connect(uploadEndTimer,SIGNAL(timeout()),this,SLOT(uploadFileEnd())); //连接定时器信号和对应的槽函数
             this->taskStart();
         }
-    }
-
         break;
+    }
     default:
         break;
     }

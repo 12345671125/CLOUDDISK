@@ -46,7 +46,7 @@ private:
 
     QString FileName; //文件名
     qint64 totalFileSize; //文件大小
-    qint64 curFileSize; //已上传文件大小
+    qint64 curFileSize = 0; //已上传文件大小
     QTcpSocket* clientSocket; //存放客户端socket
     QString serverFilePath;
     QFile* file;  //文件描述符

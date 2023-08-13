@@ -15,5 +15,8 @@
         <file>img/collapse.png</file>
         <file>img/full.png</file>
         <file>img/quit.png</file>
+        <file>img/normal.png</file>
+        <file>img/Light.png</file>
+        <file>img/Night.png</file>
     </qresource>
 </RCC>

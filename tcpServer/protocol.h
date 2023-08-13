@@ -3,12 +3,14 @@
 #ifndef PROTOCOL_H
 #define PROTOCOL_H
 #pragma once
+
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
 #include <QString>
 #include <QList>
 #include <QDateTime>
+
 typedef unsigned int uint;
 
 #define REGIST_OK "regist ok"
@@ -119,6 +121,14 @@ struct PDU
     static PDU default_request(uint Type,QString requestStr,uint MsgSize = 0); //默认回复模板
 
 };
+
+//struct dataPackage
+//{
+//    char filename[64];
+//    qint64 dataSize; //本次数据大小
+//    qint64 sentFileSize;//已发送数据大小
+//    qint64 totalFileSize; //总数据大小
+//};
 struct FileInfo
 {
     int totalSize; //总文件结构体大小
@@ -152,6 +162,7 @@ struct FileDetail
 };
 
 PDU* createPDU(uint uiMsgLen);
+//dataPackage* createDataPackage(QString fileName,qint64 dataSize,qint64 sentFileSize,qint64 totalFileSize);
 FileInfoList* createFileInfoList(int length);
 FileInfo* createFileInfo(const int iFileType,const char* caFileName,const qint64 FileSize,int pathLen);
 FileInfo_s* createFileInfo_s(const char* filename,const qint64 filesize,const char* uploadname);

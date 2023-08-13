@@ -21,7 +21,6 @@ logoWidget::logoWidget(QWidget *parent)
     this->Icon->setIcon(*(this->appIcon));
     this->Icon->setFlat(true);
     this->Icon->setCursor(Qt::PointingHandCursor);
-    this->setStyleSheet(m_LogoWidget_style);
     this->apptitle->setText("CloudDisk");
     this->Icon->setMaximumSize(32,32);
     this->apptitle->resize(50,50);
@@ -29,6 +28,10 @@ logoWidget::logoWidget(QWidget *parent)
     this->mainHBL->addWidget(this->Icon);
     this->mainHBL->addWidget(this->apptitle);
     this->setLayout(mainHBL);
+
+    /*以下为样式的设置*/
+
+    this->setStyleSheet(m_LogoWidget_style);
 
 }
 

@@ -20,6 +20,8 @@ public:
     Friend *getFriend();
     filePage *getfilePage();
     QTimer* myTimer;
+    void setStyle(QString style);
+
 signals:
 
 private:

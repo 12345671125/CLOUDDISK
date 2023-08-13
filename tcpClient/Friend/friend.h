@@ -16,6 +16,7 @@
 
 QT_BEGIN_NAMESPACE
 namespace protocol { class PDU;};
+class PublicChatWidget;
 QT_END_NAMESPACE
 
 class Online;
@@ -30,7 +31,6 @@ public:
     void showAllOnlineUser(protocol::PDU* pdu);
     void showSearchUser(protocol::PDU* pdu);
     void updateFriend(protocol::PDU* pdu);
-    void showPublicChat(protocol::PDU *pdu);
 
 
 signals:
@@ -40,17 +40,18 @@ public slots:
     void flushFriends(); //刷新好友列表
     void deleteFriend(); //删除好友
     void privateChat(); //私聊
-    void publicChat(); //群聊
+    void setStyle(QString style);
 private:
-    QTextEdit* m_pShowMsgTE;
+//    QTextEdit* m_pShowMsgTE;
     QListWidget* m_pFriendListWidget;
-    QLineEdit* m_pInputMsgLE;
+//    QLineEdit* m_pInputMsgLE;
     QPushButton* m_pDelFriendPB;
     QPushButton* m_pFlushFriendPB;
     QPushButton* m_pShowOnlineUserPB;
     QPushButton* m_pSearchUserPB;
-    QPushButton* m_pMsgSendPB;
+//    QPushButton* m_pMsgSendPB;
     QPushButton* m_pPrivateChatPB;
+    PublicChatWidget* m_PublicChatWidget;
 
 
     QTimer* m_Timer; //这个定时器用与刷新好友P

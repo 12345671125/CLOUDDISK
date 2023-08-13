@@ -19,8 +19,8 @@ class m_WindowFlag : public QWidget
     Q_OBJECT
 public:
     explicit m_WindowFlag(QWidget *parent = nullptr);
-   static m_WindowFlag& getinstance(QWidget* parent);
-
+   static m_WindowFlag& getinstance(QWidget* parent = nullptr);
+    void setStyle(QString style);
 private:
     QIcon* appIcon;
     QHBoxLayout* mainLayout;
@@ -28,6 +28,11 @@ private:
     QHBoxLayout* logoG;
     logoWidget* logoWidget;
     windowBtnG* myBtnG;
+
+protected:
+    virtual void mousePressEvent(QMouseEvent* event); //鼠标按下事件
+    virtual void mouseMoveEvent(QMouseEvent* event); //鼠标移动事件
+    virtual void mouseReleaseEvent(QMouseEvent* event); //鼠标释放事件
 
 signals:
 

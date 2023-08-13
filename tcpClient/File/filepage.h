@@ -26,6 +26,7 @@ public:
     static filePage& getInstance();
     void emitSignal();
     void emitDownLoadSignal(protocol::PDU* pdu);
+    void setStyle(QString style);
 
 
 public slots:

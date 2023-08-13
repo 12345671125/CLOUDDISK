@@ -9,9 +9,6 @@
 
 OpeWidget::OpeWidget(QWidget *parent) : QWidget(parent)
 {
-    setStyleSheet(QString("*{border:none;padding: 0px;margin:0px;} \
-                              .OpeWidget{background-color:#1e1c1b;color:black;border: none;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;}"
-                          ));
 
     this->setAttribute(Qt::WA_StyledBackground,true); //让控件使用自定义样式表
     int width = parent->width();
@@ -28,8 +25,9 @@ OpeWidget::OpeWidget(QWidget *parent) : QWidget(parent)
     FileItem->setTextAlignment(Qt::AlignCenter);
     this->m_pListW->addItem(friendItem);
     this->m_pListW->addItem(FileItem);
-//    this->m_pListW->setMaximumWidth(this->width()*0.2);
-    this->m_pListW->setStyleSheet(m_listWidget_style);
+
+    this->m_pListW->setCurrentItem(friendItem);
+
     this->m_pFriend = new Friend;
     this->m_pFilePage = new filePage;
     m_pSW  = new QStackedWidget;
@@ -42,11 +40,15 @@ OpeWidget::OpeWidget(QWidget *parent) : QWidget(parent)
     this->myTimer = new QTimer(this);
     this->myTimer->setInterval(100);
     this->myTimer->start();
-    this->m_pSW->setStyleSheet(m_StackWidget_style);
     Main->setContentsMargins(0,0,0,0);
     setLayout(Main);
+
+    /*以下为信号槽的连接*/
     QObject::connect(m_pListW,SIGNAL(currentRowChanged(int)),m_pSW,SLOT(setCurrentIndex(int)));
     QObject::connect(myTimer,SIGNAL(timeout()),this,SLOT(listenTransmit()));
+
+    /*以下为样式设置*/
+    this->setStyle(m_opeWidget_Light_style);
 }
 
 OpeWidget::~OpeWidget()
@@ -71,6 +73,14 @@ Friend *OpeWidget::getFriend()
 filePage *OpeWidget::getfilePage()
 {
     return m_pFilePage;
+}
+
+void OpeWidget::setStyle(QString style)
+{
+    this->style()->unpolish(this);
+    this->setStyleSheet(style);
+    this->style()->polish(this);
+    this->update();
 }
 
 void OpeWidget::listenTransmit()

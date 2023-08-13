@@ -1,8 +1,12 @@
 #include "m_windowflag.h"
 
 #include <QIcon>
+#include <QMouseEvent>
 #include "logowidget.h"
+#include "qstyle.h"
 #include "windowbtng.h"
+#include "mymain.h"
+#include "../style.h"
 
 m_WindowFlag::m_WindowFlag(QWidget *parent)
     : QWidget{parent}
@@ -33,9 +37,9 @@ m_WindowFlag::m_WindowFlag(QWidget *parent)
      this->setLayout(mainLayout);
      this->buttonG->setContentsMargins(0,0,0,0);
      this->mainLayout->setContentsMargins(10,0,0,0);
-     setStyleSheet(".m_WindowFlag{border:none;background:#1e1c1b;border-top-left-radius:5px;border-top-right-radius:5px;} \
-                    QLabel{color:white;}"
-                    );
+
+     /*以下为样式的设置*/
+     this->setStyle(m_windowflag_Light_style);
 
 }
 
@@ -43,4 +47,36 @@ m_WindowFlag &m_WindowFlag::getinstance(QWidget* parent)
 {
      static  m_WindowFlag WindowFlag(parent);
      return WindowFlag;
+}
+
+void m_WindowFlag::setStyle(QString style)
+{
+     this->style()->unpolish(this);
+     this->setStyleSheet(style);
+     this->style()->polish(this);
+     this->update();
+}
+void m_WindowFlag::mousePressEvent(QMouseEvent *event)
+{
+     if(event->button() == Qt::LeftButton){
+         this->setCursor(Qt::SizeAllCursor);
+         myMain::getInstance().Dragging = true;
+         myMain::getInstance().f_Position = QPoint(myMain::getInstance().geometry().x(),
+                                                   myMain::getInstance().geometry().y());
+         myMain::getInstance().c_Position = QCursor::pos();
+     }
+
+}
+
+void m_WindowFlag::mouseMoveEvent(QMouseEvent *event)
+{
+     if(myMain::getInstance().Dragging == true){
+         myMain::getInstance().move(myMain::getInstance().f_Position + (QCursor::pos() - myMain::getInstance().c_Position));
+     }
+}
+
+void m_WindowFlag::mouseReleaseEvent(QMouseEvent *event)
+{
+     this->setCursor(Qt::ArrowCursor);
+     myMain::getInstance().Dragging = false;
 }

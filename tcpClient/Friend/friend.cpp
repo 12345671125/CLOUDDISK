@@ -8,21 +8,26 @@
 #include "MainWIndow/opewidget.h"
 #include <QMenu>
 #include <QDebug>
+#include "../style.h"
+#include "publicchatwidget.h"
 
 Friend::Friend(QWidget *parent) : QWidget(parent)
 {
-    this->m_pShowMsgTE = new QTextEdit(this);
-    this->m_pShowMsgTE->setReadOnly(true);
+    this->setAttribute(Qt::WA_StyledBackground);
+
+
     this->m_pFriendListWidget = new QListWidget;
-    this->m_pInputMsgLE = new QLineEdit;
+
+    this->m_PublicChatWidget = &PublicChatWidget::getInstance(this);
 
     this->m_pDelFriendPB = new QPushButton("删除");
     this->m_pFlushFriendPB = new QPushButton("刷新");
-    this->m_pShowOnlineUserPB = new QPushButton("显示在线用户");
+    this->m_pShowOnlineUserPB = new QPushButton("在线用户");
     this->m_pSearchUserPB = new QPushButton("查询用户");
-    this->m_pMsgSendPB = new QPushButton("信息发送");
+
     this->m_pPrivateChatPB = new QPushButton("私聊");
     this->m_pSearchUserPB->setDisabled(true);
+
     QVBoxLayout *pLeftBL = new QVBoxLayout;
     pLeftBL->addWidget(m_pDelFriendPB);
     pLeftBL->addWidget(m_pFlushFriendPB);
@@ -30,29 +35,28 @@ Friend::Friend(QWidget *parent) : QWidget(parent)
     pLeftBL->addWidget(m_pSearchUserPB);
     pLeftBL->addWidget(m_pPrivateChatPB);
 
+    pLeftBL->setContentsMargins(0,0,5,0);
+    pLeftBL->setSpacing(0);
+    this->m_pFriendListWidget->setMaximumSize(this->width()*0.35,this->height());
     QHBoxLayout* pTopHBL = new QHBoxLayout;
-    pTopHBL->addWidget(m_pShowMsgTE);
+    pTopHBL->addWidget(this->m_PublicChatWidget);
     pTopHBL->addWidget(m_pFriendListWidget);
     pTopHBL->addLayout(pLeftBL);
 
-    QHBoxLayout* pMsgHBL = new QHBoxLayout;
-    pMsgHBL->addWidget(m_pInputMsgLE);
-    pMsgHBL->addWidget(m_pMsgSendPB);
+    pTopHBL->setContentsMargins(0,10,0,20);
+
 
     QVBoxLayout* pMain = new QVBoxLayout;
     pMain->addLayout(pTopHBL);
-    pMain->addLayout(pMsgHBL);
 
+    pMain->setContentsMargins(0,0,0,0);
     online = new Online;
     pMain->addWidget(online);
     online->hide();
     setLayout(pMain);
 
     this->flushFriends();
-//    this->m_pPrivateChatPB->setDisabled(true);
-//    if(this->m_pFriendListWidget->count()>0){
-//        this->m_pFriendListWidget->setCurrentItem(0);
-//    }
+
 
 /*设置刷新好友定时器*/
     this->m_Timer = new QTimer(this);
@@ -68,11 +72,12 @@ Friend::Friend(QWidget *parent) : QWidget(parent)
     QObject::connect(m_pDelFriendPB,SIGNAL(clicked(bool)),this,SLOT(deleteFriend()));
     QObject::connect(m_pPrivateChatPB,SIGNAL(clicked(bool)),this,SLOT(privateChat()));
 
-    QObject::connect(m_pMsgSendPB,SIGNAL(clicked(bool)),this,SLOT(publicChat())); //群聊
     QObject::connect(m_pFriendListWidget,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(widgetListRequested(QPoint)));
 
 
     this->m_pFriendListWidget->setContextMenuPolicy(Qt::CustomContextMenu); //添加菜单策略
+
+    this->setStyle(m_friendPage_Light_style);
 }
 
 Friend::~Friend()
@@ -119,21 +124,6 @@ void Friend::updateFriend(protocol::PDU *pdu)
         }
 //        qDebug()<<caName;
     }
-}
-
-
-void Friend::showPublicChat(protocol::PDU *pdu)
-{
-    qDebug()<<"showPublicChat";
-    if(pdu == nullptr) return;
-    QString data;
-    data.clear();
-    char username[64] = {"\0"};
-    memcpy(username,pdu->caData,64);
-    data = QString::fromLocal8Bit(username,64);
-    data.append(" : ").append(QString::fromLocal8Bit((char*)pdu->caMsg,pdu->uiMsgLen)).append("\r\n");
-    this->m_pShowMsgTE->append(data);
-
 }
 
 void Friend::showOnline()
@@ -193,33 +183,15 @@ void Friend::privateChat()
     PrivateChat::getInstance().show();
 }
 
-void Friend::publicChat()
+void Friend::setStyle(QString style)
 {
-    QString msg = this->m_pInputMsgLE->text();//获取文本框输入内容
-    if(!msg.isEmpty()){
-        QString data;
-        data.clear();
-        data = clientWin::getInstance().getLoginName();
-        data.append(" : ").append(msg).append("\r\n");
-        this->m_pShowMsgTE->append(data);
-        this->m_pInputMsgLE->clear();
-        protocol::PDU*pdu = protocol::createPDU(msg.length());/*生成协议*/
-        memcpy(pdu->caData,clientWin::getInstance().getLoginName().toStdString().c_str(),64);
-        pdu->uiMsgType = protocol::ENUM_MSG_TYPE_PUBLIC_CHAT_REQUEST;
-//        QByteArray Bdata = data.toUtf8();
-        memcpy((char*)pdu->caMsg,msg.toStdString().c_str(),msg.length());
-        /*通过socket发送协议*/
-        clientWin::getInstance().getTcpSocket().write((char*)pdu,pdu->PDULen);
-        free(pdu);
-        pdu = nullptr;
-    }else{
-        QMessageBox::critical(this,"error","发送的内容不能为空!");
-        return;
-    }
-
-
-
+    this->style()->unpolish(this);
+    this->setStyleSheet(style);
+    this->style()->polish(this);
+    this->update();
 }
+
+
 
 void Friend::widgetListRequested(const QPoint &pos)
 {

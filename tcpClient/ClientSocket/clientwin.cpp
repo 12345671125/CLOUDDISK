@@ -9,6 +9,7 @@
 #include <MainWIndow/opewidget.h>
 #include "mymain.h"
 #include <Friend/friend.h>
+#include <Friend/publicchatwidget.h>
 
 clientWin::clientWin(QWidget *parent)
     : QMainWindow(parent)
@@ -336,7 +337,7 @@ void clientWin::showPrivateMsg(protocol::PDU *pdu)
 void clientWin::showPublicMsg(protocol::PDU *pdu)
 {
     qDebug()<<"showPublicMsg";
-    OpeWidget::getinstance().getFriend()->showPublicChat(pdu);
+    PublicChatWidget::getInstance().showPublicChat(pdu);
 }
 
 void clientWin::showCreateDir(protocol::PDU *pdu)

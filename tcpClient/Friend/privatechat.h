@@ -20,6 +20,7 @@ public:
     void setChatName(QString strName);
     static PrivateChat &getInstance();
     void showMsg(protocol::PDU* pdu = NULL); //显示消息
+    void publicChat(); //群聊
 
 private slots:
     void on_sendPtn_clicked();

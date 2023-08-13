@@ -17,13 +17,25 @@ public:
     ~windowBtnG();
     static windowBtnG& getInstance(QWidget* parent = nullptr);
 private:
+    bool hasFull = false;
+    bool hasLight = true;
     QPushButton* quitBtn;
     QPushButton* fullBtn;
-    QPushButton* collapseBtn;
+    QPushButton* minmunBtn;
+    QPushButton* switchStyleBtn;
     QIcon* quitIcon;
     QIcon* fullIcon;
-    QIcon* collapseIcon;
+    QIcon* minmunIcon;
+    QIcon* normalSizeIcon;
+    QIcon* lightIcon;
+    QIcon* nightIcon;
     QHBoxLayout* mainHBL;
+
+private slots:
+    void quit();
+    void fullScreen();
+    void minmun();
+    void switchStyle();
 signals:
 
 };

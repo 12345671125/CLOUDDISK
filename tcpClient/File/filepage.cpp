@@ -48,7 +48,9 @@ filePage::filePage(QWidget *parent)
     connect(m_pDownLoadPB,SIGNAL(clicked()),this,SLOT(downLoadFile()));
     connect(this,SIGNAL(createDownLoadFileItem(QString,QString)),&(up_downPage::getInstance()),SLOT(createDownloadFileItem(QString,QString)));
     this->m_pFileListW->setContextMenuPolicy(Qt::CustomContextMenu); //添加菜单策略
-    this->setStyleSheet(m_filePage_style);
+
+
+    this->setStyle(m_filePage_Light_style);
 
 }
 
@@ -90,6 +92,14 @@ void filePage::emitSignal()
 {
     qDebug()<<"emitSignal";
     emit createFileItem(clientWin::getInstance().curPath(),this->absolutedFilePath);
+}
+
+void filePage::setStyle(QString style)
+{
+    this->style()->unpolish(this);
+    this->setStyleSheet(style);
+    this->style()->polish(this);
+    this->update();
 }
 
 //void filePage::emitDownLoadSignal(protocol::PDU* pdu)

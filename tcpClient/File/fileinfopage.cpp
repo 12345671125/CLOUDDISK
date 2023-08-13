@@ -16,6 +16,7 @@ FileInfoPage::FileInfoPage(QString FileName,QString FileSize,QString createdTime
     this->ui->listWidget->addItem("文件大小 : " + this->FileSize + "MB");
     this->ui->listWidget->addItem("创建时间 : " + this->createdTime);
     this->ui->listWidget->addItem("上传人 : " + this->location);
+    this->setWindowIcon(QIcon(QPixmap(":/img/logo.png")));
 }
 
 FileInfoPage::~FileInfoPage()
