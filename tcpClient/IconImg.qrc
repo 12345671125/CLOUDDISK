@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/FILE.jpg</file>
+        <file>img/FileDir.jpg</file>
+        <file>img/back.png</file>
+        <file>img/del.png</file>
+        <file>img/download.png</file>
+        <file>img/flush.png</file>
+        <file>img/rename.png</file>
+        <file>img/upload.png</file>
+        <file>img/new.png</file>
+        <file>img/share.png</file>
+        <file>img/info.png</file>
+        <file>img/logo.png</file>
+        <file>img/collapse.png</file>
+        <file>img/full.png</file>
+        <file>img/quit.png</file>
+        <file>img/normal.png</file>
+        <file>img/Light.png</file>
+        <file>img/Night.png</file>
+    </qresource>
+</RCC>
