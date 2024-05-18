@@ -1,8 +1,4 @@
 # CLOUDDISK
-#### 项目来源 
-* 【【收藏】c++项目实战，手把手教你搭建属于自己的网盘系统~】 
-* https://www.bilibili.com/video/BV1bR4y1774v/?share_source=copy_web&vd_source=19eb59c0c675648ad2daa534c94fd68d
------- 
 ###### 技术栈
 * Qt6.5.1 + sqlite3 + C++ 
 ###### 项目情况 
